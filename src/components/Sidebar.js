@@ -6,7 +6,7 @@ class Sidebar extends Component {
     render(){
 
         return(
-            <div className='sidebar'>
+            <div id='sidebar'>
                 <div className='search-location-bar'>
                 <div className="search-location-input-wrapper">
                     <input
@@ -17,7 +17,13 @@ class Sidebar extends Component {
                         />
                 </div>
                 </div>
-            
+
+                <div className="search-locations-results">
+                    <ol className="location-grid">
+                        <li className='locations'>Locations</li>
+                    </ol>
+                </div>
+
             </div>
         )
     }
