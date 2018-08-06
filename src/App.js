@@ -3,8 +3,7 @@ import './App.css';
 import Map from './components/Map';
 
 
-/*https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
-fetches a script and executes it as soon as possible*/
+//https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
 
 function loadJS(src){ 
   let ref = window.document.getElementsByTagName('script')[0];
@@ -29,7 +28,7 @@ initMap=()=>{
   let map = new window.google.maps.Map(document.getElementById('map'),{
       center:{lat: 42.6977082,
               lng : 23.3218675} ,
-      zoom: 13
+              zoom: 13
   });
 
   this.setState({
