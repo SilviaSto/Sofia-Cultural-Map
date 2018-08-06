@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './components/Map';
 import Sidebar from './components/Sidebar';
+import escapeRegExp from 'escape-string-regexp';
 
 
 //https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
@@ -23,7 +24,8 @@ class App extends Component {
 
 state = {
   map: '',
-  marker:[]
+  marker:[],
+  query:''
 }
 
 initMap=()=>{
@@ -48,17 +50,30 @@ initMap=()=>{
   
 }
 
+filterLocation =  (query)=>{
+  this.setState({
+    query
+  })
+
+  if(query.length>0){
+    const match = new RegExp(escapeRegExp(query), 'i');
+  }
+}
+
+
 
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
 }
 
-
-
   render() {
+    let {query}=this.state;
 
     return (
+
+     
+
       <div className="App">
 
         <header className="App-header">
@@ -66,7 +81,7 @@ componentDidMount() {
         </header>
 
         <main id="maincontent">
-        <Sidebar />
+        <Sidebar filterLocation={query}/>
         <Map />
         
         </main>
