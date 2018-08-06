@@ -1,16 +1,15 @@
-html, body, .root {
+html, body, .root, .App {
   height: 100%;
 }
 
-body {
-  line-height: 1.5;
-}
-body, .app {
-  background: white;
-}
 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+#map{
+  height: 100%;
+  width: 100%;
 }
