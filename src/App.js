@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Map from './components/Map';
+import Sidebar from './components/Sidebar';
 
 
 //https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
@@ -11,8 +12,8 @@ function loadJS(src){
   script.src = src;
   script.async = true;
   ref.parentNode.insertBefore(script, ref);
-  console.log(`REf:${ref}`, ref)
-  console.log(`Script:${script}`, script)
+  //console.log(`REf:${ref}`, ref)
+  //onsole.log(`Script:${script}`, script)
 }
 
 
@@ -32,9 +33,7 @@ initMap=()=>{
               zoom: 13
   });
 
-  this.setState({
-    map: map
-  })
+
 
   let marker = new window.google.maps.Marker({
     position: {lat: 42.6977093,
@@ -43,7 +42,8 @@ initMap=()=>{
       title: 'first marker'
   })
   this.setState({
-    marker
+    marker,
+    map
   })
   
 }
@@ -51,7 +51,7 @@ initMap=()=>{
 
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
-  loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&callback=initMap')
+  loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
 }
 
 
@@ -66,7 +66,7 @@ componentDidMount() {
         </header>
 
         <main id="maincontent">
-
+        <Sidebar />
         <Map />
         
         </main>
