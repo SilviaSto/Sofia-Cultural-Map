@@ -1,17 +1,51 @@
 import React, { Component } from 'react';
 import './App.css';
-import Sidebar from './components/Sidebar';
 import Map from './components/Map';
 
-class App extends Component {
 
-  state={
-    query:''
-  }
+
+
+function loadJS(src){  //fetches a script and executes it as soon as possible
+  let ref = window.document.getElementsByTagName('script')[0];
+  let script = window.document.createElement('script');
+  script.src = src;
+  script.async = true;
+  ref.parentNode.insertBefore(script, ref);
+}
+
+class App extends Component {
+ 
+
+state = {
+  map: ''
+}
+
+initMap=()=>{
+  let map = new window.google.maps.Map(document.getElementById('map'),{
+      center:{lat: 42.6977082,
+      lng : 23.3218675} ,
+      zoom: 13
+  });
+
+  this.setState({
+    map: map
+  })
+  
+}
+
+
+componentDidMount() {
+  window.initMap = this.initMap
+  loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&callback=initMap')
+}
+
+
 
   render() {
+
     return (
       <div className="App">
+
         <header className="App-header">
           <h1 className="App-title">Sofia Cultural Map</h1>
         </header>
@@ -19,9 +53,7 @@ class App extends Component {
         <main id="maincontent">
           
         
-        <Map />
-        
-        <Sidebar />
+        <Map map={this.state.map} />
         
         </main>
       </div>
