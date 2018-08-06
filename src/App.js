@@ -21,7 +21,8 @@ class App extends Component {
  
 
 state = {
-  map: ''
+  map: '',
+  marker:[]
 }
 
 initMap=()=>{
@@ -33,6 +34,16 @@ initMap=()=>{
 
   this.setState({
     map: map
+  })
+
+  let marker = new window.google.maps.Marker({
+    position: {lat: 42.6977093,
+      lng : 23.3218684},
+      map: map,
+      title: 'first marker'
+  })
+  this.setState({
+    marker
   })
   
 }
