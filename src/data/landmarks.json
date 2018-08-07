@@ -1,0 +1,18 @@
+[
+    {
+      "position": {"lat": 42.6940929, "lng" : 23.3266241},
+      "title": "National Teather Ivan Vazov"
+    },{
+        "position": {"lat": 42.6975228, "lng" : 23.330444},
+        "title": "National Opera and Ballet"
+    },{
+        "position": {"lat": 42.6963229, "lng" : 23.3270808 },
+        "title": "National Art Gallery"
+    },{
+        "position": {"lat": 42.6949318,  "lng" : 23.335724},
+        "title": "National Library"
+    },{
+        "position": {"lat": 42.6847251, "lng" : 23.3189384},
+        "title": "National Palace of Culture "
+    }
+  ]
