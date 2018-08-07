@@ -48,9 +48,10 @@ initMap=()=>{
 //--add markers on landmarks--//
 
     landmarks.forEach((landmarks)=>{
+      let info = 'My text'
 
-      let landmarkInfowindow = new window.google.maps.InfoWindow({
-        content: 'My text'
+      let infoWindow = new window.google.maps.InfoWindow({
+        content: info
       })
 
       let marker = new window.google.maps.Marker({
@@ -58,13 +59,22 @@ initMap=()=>{
         title: landmarks.title,
         map: map,
         animation: window.google.maps.Animation.DROP,
-        infowindow: landmarkInfowindow
+        infowindow: infoWindow
       })
+      //open infoWindow on click
+      marker.addListener('click', function(){
+        infoWindow.open(map, marker)
+    })
       this.setState({
         marker
       })
     })
 }
+
+
+
+
+
 
 filterLocation =  (query)=>{
   this.setState({
