@@ -21,14 +21,13 @@ function loadJS(src){
 
 
 class App extends Component {
- 
 
-state = {
-  map: '',
-  marker:[],
-  query:'',
-  landmarks:landmarks
-}
+
+ state = {
+    query:'',
+    landmarks:landmarks,
+    markers:[]
+  }
 
 
 
@@ -40,44 +39,43 @@ initMap=()=>{
   }
   //init map
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
-  //update the state
-  this.setState({
-    map
-  })
+  
 
 //--add markers with info on landmarks--//
 
-    landmarks.forEach((landmarks)=>{
-      let info = 'My text'
+    landmarks.forEach((landmark)=>{
+      let info = landmark.title;
 
       let infoWindow = new window.google.maps.InfoWindow({
         content: info
       })
 
       let marker = new window.google.maps.Marker({
-        position: landmarks.position,
-        title: landmarks.title,
+        position: landmark.position,
+        title: landmark.title,
         map: map,
         animation: window.google.maps.Animation.DROP,
+        visible:true
       })
-      //open infoWindow on click
+      this.state.markers.push(marker)
+      
+      //open infoWindow on click and set animation
       marker.addListener('click', function(){
-        //infoWindow.setContent(info)
         infoWindow.open(map, marker)
-    })
-//close infoWindow by click on map
-    map.addListener('click', function(){
-      infoWindow.close();
+        if(marker.getAnimation()!==null){
+          marker.setAnimation(null)
+        }else{
+          marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        }
+      });
+
+      //close infoWindow and stop marker bouncing by click on map
+      map.addListener('click', function(){
+        infoWindow.close(map, marker);
+        marker.setAnimation(null);
   })
-
-      this.setState({
-        marker
-      })
-    })
+  }) 
 }
-
-
-
 
 
 
@@ -102,11 +100,9 @@ componentDidMount() {
 
 
   render() {
-    let {query}=this.state;
+    let {query, landmarks, markers}=this.state;
 
     return (
-
-     
 
       <div className="App">
 
@@ -116,7 +112,11 @@ componentDidMount() {
 
         <main id="maincontent">
 
-        <Sidebar filterLocation={query}/>
+        <Sidebar
+        landmarks = {landmarks}
+        filterLocation={query}
+        markers={markers}
+        />
 
         <Map />
 
