@@ -47,8 +47,6 @@ initMap=()=>{
 
 //--add markers on landmarks--//
 
-
-
     landmarks.forEach((landmarks)=>{
 
       let landmarkInfowindow = new window.google.maps.InfoWindow({
