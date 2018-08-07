@@ -6,8 +6,8 @@ class Sidebar extends Component{
 
     render(){
         return(
-                <section id='sidebar'>
-                    <div>
+                <nav id='sidebar'>
+                    <div className='sidebar-content'>
                         <div className="search-location-input-wrapper">
                             <input
                                 type='text'
@@ -16,8 +16,13 @@ class Sidebar extends Component{
                                 onChange={}*/
                                 />
                         </div>
+                        <div id='locations'>
+                            <ol className='location-list'>
+                                <li key='id 'className='location'>list1</li>
+                            </ol>
+                        </div>
                     </div>
-                </section>
+                </nav>
             )
     }
 }

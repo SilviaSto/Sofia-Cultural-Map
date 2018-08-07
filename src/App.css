@@ -10,14 +10,6 @@ body,
 #map{
   height: 100vh;
   width: 100vw;
-  position: relative;
-  overflow: auto;
-}
-
-#map-container{
-  height: 100vh;
-  width: 100vw;
-  display: flex;
 }
 
 
@@ -25,9 +17,21 @@ header{
   padding: 10px 0;
   background: #c1ddc2;
   text-align: center;
+  position: fixed;
+  z-index: 14;
+  width: 100vw;
 }
 
 h1 {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0 0 20px;
+  margin-left: 100px;
 }
+
+#sidebar {
+  width: 20vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 15;
+  background: #c1ddc2;
+}
+
