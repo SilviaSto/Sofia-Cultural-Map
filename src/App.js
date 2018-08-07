@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import landmarks from './data/landmarks';
 import './App.css';
 import Map from './components/Map';
 import Sidebar from './components/Sidebar';
@@ -26,6 +27,7 @@ state = {
   map: '',
   marker:[],
   query:'',
+  landmarks:landmarks
 }
 
 
@@ -38,48 +40,32 @@ initMap=()=>{
   }
   //init map
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
+  //update the state
+  this.setState({
+    map
+  })
 
-//add markers
-  let landmarks = [
-    {
-      position: {lat: 42.6940929, lng : 23.3266241},
-      title: 'National Teather "Ivan Vazov"',
-    },{
-    position: {lat: 42.6975228, lng : 23.330444},
-      title: 'National Opera and Ballet',
-    },{
-    position: {lat: 42.6963229, lng : 23.3270808 },
-     title: 'National Art Gallery',
-    },{
-    position: {lat: 42.6949318,  lng : 23.335724},
-    title: 'National Library',
-    },{
-    position: {lat: 42.6847251, lng : 23.3189384},
-    title: 'National Palace of Culture ',
-    }
-  ]
+//--add markers on landmarks--//
+
 
 
     landmarks.forEach((landmarks)=>{
+
+      let landmarkInfowindow = new window.google.maps.InfoWindow({
+        content: 'My text'
+      })
+
       let marker = new window.google.maps.Marker({
         position: landmarks.position,
-        map: map,
         title: landmarks.title,
-        animation: window.google.maps.Animation.DROP
+        map: map,
+        animation: window.google.maps.Animation.DROP,
+        infowindow: landmarkInfowindow
       })
       this.setState({
         marker
       })
     })
-
-
-
-
-//update the state
-  this.setState({
-    map
-  })
-  
 }
 
 filterLocation =  (query)=>{
@@ -116,9 +102,11 @@ componentDidMount() {
         </header>
 
         <main id="maincontent">
+
         <Sidebar filterLocation={query}/>
+
         <Map />
-        
+
         </main>
       </div>
     );
