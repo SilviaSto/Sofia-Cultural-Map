@@ -62,11 +62,7 @@ initMap=()=>{
       //open infoWindow on click and set animation
       marker.addListener('click', function(){
         infoWindow.open(map, marker)
-        if(marker.getAnimation()!==null){
-          marker.setAnimation(null)
-        }else{
-          marker.setAnimation(window.google.maps.Animation.BOUNCE);
-        }
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
       });
 
       //close infoWindow and stop marker bouncing by click on map
@@ -74,6 +70,7 @@ initMap=()=>{
         infoWindow.close(map, marker);
         marker.setAnimation(null);
   })
+  
   }) 
 }
 
