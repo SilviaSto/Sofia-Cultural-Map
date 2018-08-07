@@ -45,7 +45,7 @@ initMap=()=>{
     map
   })
 
-//--add markers on landmarks--//
+//--add markers with info on landmarks--//
 
     landmarks.forEach((landmarks)=>{
       let info = 'My text'
@@ -59,12 +59,14 @@ initMap=()=>{
         title: landmarks.title,
         map: map,
         animation: window.google.maps.Animation.DROP,
-        infowindow: infoWindow
       })
       //open infoWindow on click
       marker.addListener('click', function(){
+        infoWindow.setContent(info)
         infoWindow.open(map, marker)
     })
+
+
       this.setState({
         marker
       })
