@@ -62,10 +62,13 @@ initMap=()=>{
       })
       //open infoWindow on click
       marker.addListener('click', function(){
-        infoWindow.setContent(info)
+        //infoWindow.setContent(info)
         infoWindow.open(map, marker)
     })
-
+//close infoWindow by click on map
+    map.addListener('click', function(){
+      infoWindow.close();
+  })
 
       this.setState({
         marker
