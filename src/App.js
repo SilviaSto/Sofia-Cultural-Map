@@ -25,26 +25,58 @@ class App extends Component {
 state = {
   map: '',
   marker:[],
-  query:''
+  query:'',
 }
 
+
+
 initMap=()=>{
-  let map = new window.google.maps.Map(document.getElementById('map'),{
-      center:{lat: 42.6977082,
-              lng : 23.3218675} ,
-              zoom: 13
-  });
+  let options = {
+    zoom: 14,
+    center:{lat: 42.6977082, lng : 23.3218675},
+    mapTypeId: 'roadmap'
+  }
+  //init map
+  let map = new window.google.maps.Map(document.getElementById('map'),{options});
+
+//add markers
+  let landmarks = [
+    {
+      position: {lat: 42.6940929, lng : 23.3266241},
+      title: 'National Teather "Ivan Vazov"',
+    },{
+    position: {lat: 42.6975228, lng : 23.330444},
+      title: 'National Opera and Ballet',
+    },{
+    position: {lat: 42.6963229, lng : 23.3270808 },
+     title: 'National Art Gallery',
+    },{
+    position: {lat: 42.6949318,  lng : 23.335724},
+    title: 'National Library',
+    },{
+    position: {lat: 42.6847251, lng : 23.3189384},
+    title: 'National Palace of Culture ',
+    }
+  ]
+
+
+    landmarks.forEach((landmarks)=>{
+      let marker = new window.google.maps.Marker({
+        position: landmarks.position,
+        map: map,
+        title: landmarks.title,
+        animation: window.google.maps.Animation.DROP
+      })
+      this.setState({
+        marker
+      })
+    })
 
 
 
-  let marker = new window.google.maps.Marker({
-    position: {lat: 42.6977093,
-      lng : 23.3218684},
-      map: map,
-      title: 'first marker'
-  })
+
+//update the state
   this.setState({
-    marker,
     map
   })
   
@@ -66,6 +98,9 @@ componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
 }
+
+
+
 
   render() {
     let {query}=this.state;
