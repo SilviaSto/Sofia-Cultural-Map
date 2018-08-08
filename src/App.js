@@ -86,18 +86,13 @@ initMap=()=>{
 }
 
 
-
+/*--filter landmarks--*/
 filterLocation =  (query)=>{
   this.setState({
     query
   })
 
-  if(query.length<0){
-    this.setState({
-      filterLands:landmarks
-    })
-    
-  }else{
+  if(query.length>0){
     const match = new RegExp(escapeRegExp(query), 'i');
     //console.log(query.length);
     this.setState({
@@ -105,8 +100,6 @@ filterLocation =  (query)=>{
     })
     //console.log(this.state.filterLands.length, this.state.filterLands)
   }
-
-
 }
 
 
@@ -123,7 +116,7 @@ componentDidMount() {
 
 
   render() {
-    let {query, landmarks, markers, filterLands}=this.state;
+    let {query, markers, filterLands}=this.state;
 
     return (
 
