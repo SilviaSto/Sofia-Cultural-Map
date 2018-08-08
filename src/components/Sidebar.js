@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import landmarks from '../data/landmarks';
 import '../App.css';
 
 
@@ -9,7 +8,10 @@ class Sidebar extends Component{
 
 
     render(){
+
+        let {query, filterLocation, filterLands} = this.props;
         return(
+            
                 <nav id='sidebar'>
 
                     <div className='sidebar-content'>
@@ -17,18 +19,19 @@ class Sidebar extends Component{
                             <input
                                 type='text'
                                 placeholder = 'Filter by landmark'
-                                /*value = {}
-                                onChange={}*/
+                                value = {query}
+                                onChange={(e)=>filterLocation(e.target.value)}
                                 />
                         </div>
                         <div id='locations'>
                             <ol className='location-list'>
-                                {landmarks.map((landmark)=>(
-                                    <li key={landmark.title} className='location'>
-                                        {landmark.title}
+
+                                {filterLands.map((filterLand)=>(
+                                    <li key={filterLand.title} className='location'>
+                                        <a href='#' className='link'>{filterLand.title}</a>
                                     </li>))
                                 }
-                                
+
                             </ol>
                         </div>
                     </div>

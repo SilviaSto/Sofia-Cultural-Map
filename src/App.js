@@ -27,7 +27,7 @@ class App extends Component {
     query:'',
     landmarks:landmarks,
     markers:[],
-    landmarks_fl:[]
+    filterLands:[]
   }
 
 
@@ -82,6 +82,7 @@ initMap=()=>{
   })
   
   }) 
+
 }
 
 
@@ -91,13 +92,20 @@ filterLocation =  (query)=>{
     query
   })
 
-  if(query.length>0){
-    const match = new RegExp(escapeRegExp(query), 'i');
+  if(query.length<0){
+    this.setState({
+      filterLands:landmarks
+    })
     
-      
+  }else{
+    const match = new RegExp(escapeRegExp(query), 'i');
+    //console.log(query.length);
+    this.setState({
+      filterLands: landmarks.filter((landmark)=>match.test(landmark.title)),
+    })
+    //console.log(this.state.filterLands.length, this.state.filterLands)
   }
-  return;
-  
+
 
 }
 
@@ -106,13 +114,16 @@ filterLocation =  (query)=>{
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
+  this.setState({
+    filterLands:landmarks
+  })
 }
 
 
 
 
   render() {
-    let {query, landmarks, markers}=this.state;
+    let {query, landmarks, markers, filterLands}=this.state;
 
     return (
 
@@ -125,10 +136,10 @@ componentDidMount() {
         <main id="maincontent">
 
         <Sidebar
-        landmarks = {landmarks}
         query={query}
         markers={markers}
         filterLocation={this.filterLocation}
+        filterLands = {filterLands}
         />
 
         <Map />
