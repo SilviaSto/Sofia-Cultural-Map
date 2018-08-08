@@ -26,9 +26,9 @@ class App extends Component {
  state = {
     query:'',
     landmarks:landmarks,
-    markers:[]
+    markers:[],
+    landmarks_fl:[]
   }
-
 
 
 initMap=()=>{
@@ -44,8 +44,8 @@ initMap=()=>{
 //--add markers with info on landmarks--//
 
     landmarks.forEach((landmark)=>{
-      let info = landmark.title;
 
+      let info = landmark.title;
       let infoWindow = new window.google.maps.InfoWindow({
         content: info
       })
@@ -55,18 +55,28 @@ initMap=()=>{
         title: landmark.title,
         map: map,
         animation: window.google.maps.Animation.DROP,
-        visible:true
+        visible:true,
+        active: false
       })
       this.state.markers.push(marker)
       
-      //open infoWindow on click and set animation
+      //open/close infoWindow on click and set on/off animation
       marker.addListener('click', function(){
-        infoWindow.open(map, marker)
-        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        if(marker.active !== false){
+          infoWindow.close();
+          marker.setAnimation(null);
+          marker.active = false
+        }else{
+          marker.active = true;
+          infoWindow.open(map, marker);
+          marker.setAnimation(window.google.maps.Animation.BOUNCE);
+          //console.log(marker.active);
+          //console.log(infoWindow.content)
+        }
       });
-
       //close infoWindow and stop marker bouncing by click on map
       map.addListener('click', function(){
+        marker.active = false;
         infoWindow.close(map, marker);
         marker.setAnimation(null);
   })
@@ -83,7 +93,12 @@ filterLocation =  (query)=>{
 
   if(query.length>0){
     const match = new RegExp(escapeRegExp(query), 'i');
+    
+      
   }
+  return;
+  
+
 }
 
 
@@ -111,8 +126,9 @@ componentDidMount() {
 
         <Sidebar
         landmarks = {landmarks}
-        filterLocation={query}
+        query={query}
         markers={markers}
+        filterLocation={this.filterLocation}
         />
 
         <Map />
