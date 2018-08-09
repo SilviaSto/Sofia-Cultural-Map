@@ -29,6 +29,7 @@ class App extends Component {
     filterLands:[],
     map:''
   }
+
 /*--init map with markers--*/
 initMap=()=>{
   let options = {
@@ -36,7 +37,7 @@ initMap=()=>{
     center:{lat: 42.6977082, lng : 23.3218675},
     mapTypeId: 'roadmap'
   }
-  
+
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
   this.setState({
     map
@@ -58,18 +59,16 @@ initMap=()=>{
         id:landmark.id,
         map: map,
         animation: window.google.maps.Animation.DROP,
-        visible:true,
         active: false
       })
-      initMarkers.push(marker)
+      initMarkers.push(marker);
       this.setState({
         markers:initMarkers,
         filteredMarks: initMarkers
       })
       //console.log(`filterM ${this.state.filteredMarks}`)
 
-
-      //open/close infoWindow on click and set on/off animation
+      /*--open/close infoWindow on click and set on/off animation--*/
       marker.addListener('click', function(){
         if(marker.active !== false){
           infoWindow.close();
@@ -80,11 +79,10 @@ initMap=()=>{
           infoWindow.open(map, marker);
           marker.setAnimation(window.google.maps.Animation.BOUNCE);
           //console.log(marker.active);
-          console.log(marker.visible)
           //console.log(infoWindow.content)
         }
       });
-      //close infoWindow and stop marker bouncing by click on map
+      /*-close infoWindow and stop marker bouncing by click on map-*/
       map.addListener('click', function(){
         infoWindow.close(map, marker);
         marker.setAnimation(null);
@@ -93,7 +91,7 @@ initMap=()=>{
 }
 
 
-/*--filter landmarks--*/
+/*--filter landmarks and markers--*/
 filterLocation =  (query)=>{
   this.setState({
     query
@@ -107,36 +105,39 @@ filterLocation =  (query)=>{
     //console.log(query.length);
     this.setState({
       filterLands: landmarks.filter((landmark)=>match.test(landmark.title)),
-      filteredMarks: markers.filter((marker)=>match.test(marker.title))
+      filteredMarks: markers.filter((marker)=>match.test(marker.title)),
+      map:map
     })
     //console.log(`Yes: ${this.state.filteredMarks.length}`)
 
-    /*--if there is a match compare marker's id--*/
-    markers.forEach((marker)=>{
+    /*--if there is a match => compare marker's id--*/
+    setTimeout(()=>{
+      markers.forEach((marker)=>{
         marker.setMap(null);//clear all markers
+        console.log('clear')
 
-      filteredMarks.forEach((filteredMark)=>{
+        filteredMarks.forEach((filteredMark)=>{
           if(filteredMark.id===marker.id){//compare markers' ids
-          setTimeout(()=>{
             marker.setMap(map);//if there is a match show filtered marker(s)
-          }, 1000)
-            
+            console.log('filtered')
           }
+        })
       })
-    })
+    }, 1500)
+
   }else{
-    this.setState({
-      query:'',
-      filterLands: landmarks,
-      filteredMarks: markers,
-      map
-    })
-    markers.forEach((marker)=>{
-      setTimeout(()=>{
+    setTimeout(()=>{
+      markers.forEach((marker)=>{
         marker.setMap(map)
-      },1200)
-      
-    })
+        console.log('reset')
+      });
+      this.setState({
+        query:'',
+        filterLands: landmarks,
+        filteredMarks: markers,
+        map: map
+      });
+    }, 1500)
   }
 }
 
@@ -165,7 +166,6 @@ componentDidMount() {
 
   render() {
     let {query,
-        markers,
         filterLands}=this.state;
 
 
@@ -181,9 +181,8 @@ componentDidMount() {
 
         <Sidebar
         query={query}
-        markers={markers}
-        filterLocation={this.filterLocation}
         filterLands = {filterLands}
+        filterLocation={this.filterLocation}
         linkMarkers = {this.linkMarkers}
         />
 
