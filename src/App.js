@@ -7,6 +7,7 @@ import escapeRegExp from 'escape-string-regexp';
 
 
 //https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
+//create script tag and insert it before bundle.js script tag
 function loadJS(src){ 
   let ref = window.document.getElementsByTagName('script')[0];
   let script = window.document.createElement('script');
@@ -24,20 +25,24 @@ class App extends Component {
     query:'',
     landmarks:landmarks,
     markers:[],
+    filteredMarks:[],
     filterLands:[],
-    filterMarkers:[]
+    map:''
   }
-
+/*--init map with markers--*/
 initMap=()=>{
   let options = {
     zoom: 14,
     center:{lat: 42.6977082, lng : 23.3218675},
     mapTypeId: 'roadmap'
   }
-  //init map
+  
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
+  this.setState({
+    map
+  })
 
-  let initMarkers = []
+  let initMarkers = [];
 
 //--add markers with info to landmarks--//
     landmarks.forEach((landmark)=>{
@@ -58,8 +63,10 @@ initMap=()=>{
       })
       initMarkers.push(marker)
       this.setState({
-        markers:initMarkers
+        markers:initMarkers,
+        filteredMarks: initMarkers
       })
+      //console.log(`filterM ${this.state.filteredMarks}`)
 
 
       //open/close infoWindow on click and set on/off animation
@@ -73,21 +80,16 @@ initMap=()=>{
           infoWindow.open(map, marker);
           marker.setAnimation(window.google.maps.Animation.BOUNCE);
           //console.log(marker.active);
+          console.log(marker.visible)
           //console.log(infoWindow.content)
         }
       });
       //close infoWindow and stop marker bouncing by click on map
       map.addListener('click', function(){
-        marker.active = false;
         infoWindow.close(map, marker);
         marker.setAnimation(null);
-  })
-  })
-}
-
-
-linkMarkers=()=>{
-console.log('Should open infoWindow')
+      })
+    })
 }
 
 
@@ -97,27 +99,51 @@ filterLocation =  (query)=>{
     query
   })
 
+  let {markers,filteredMarks, map}=this.state;
+
   if(query.length>0){
+
     const match = new RegExp(escapeRegExp(query), 'i');
     //console.log(query.length);
     this.setState({
-      filterLands: landmarks.filter((landmark)=>match.test(landmark.title))
+      filterLands: landmarks.filter((landmark)=>match.test(landmark.title)),
+      filteredMarks: markers.filter((marker)=>match.test(marker.title))
     })
-    //console.log(this.state.filterLands.length, this.state.filterLands)
+    //console.log(`Yes: ${this.state.filteredMarks.length}`)
 
-//compare marker's id and filterLand's id
-    let {markers}=this.state;
-    let {filterLands}=this.state;
-    filterLands.forEach((filterLand)=>{
-      markers.forEach((marker)=>{
-          if(filterLand.id===marker.id){
+    /*--if there is a match compare marker's id--*/
+    markers.forEach((marker)=>{
+        marker.setMap(null);//clear all markers
+
+      filteredMarks.forEach((filteredMark)=>{
+          if(filteredMark.id===marker.id){//compare markers' ids
+          setTimeout(()=>{
+            marker.setMap(map);//if there is a match show filtered marker(s)
+          }, 1000)
             
-            console.log(marker.title)
           }
       })
     })
-
+  }else{
+    this.setState({
+      query:'',
+      filterLands: landmarks,
+      filteredMarks: markers,
+      map
+    })
+    markers.forEach((marker)=>{
+      setTimeout(()=>{
+        marker.setMap(map)
+      },1200)
+      
+    })
   }
+}
+
+
+
+linkMarkers=()=>{
+  console.log('Should open infoWindow')
 }
 
 
