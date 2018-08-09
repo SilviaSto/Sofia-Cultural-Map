@@ -7,7 +7,6 @@ import escapeRegExp from 'escape-string-regexp';
 
 
 //https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
-
 function loadJS(src){ 
   let ref = window.document.getElementsByTagName('script')[0];
   let script = window.document.createElement('script');
@@ -19,17 +18,15 @@ function loadJS(src){
 }
 
 
-
 class App extends Component {
-
 
  state = {
     query:'',
     landmarks:landmarks,
     markers:[],
-    filterLands:[]
+    filterLands:[],
+    filterMarkers:[]
   }
-
 
 initMap=()=>{
   let options = {
@@ -39,10 +36,10 @@ initMap=()=>{
   }
   //init map
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
-  
 
-//--add markers with info on landmarks--//
+  let initMarkers = []
 
+//--add markers with info to landmarks--//
     landmarks.forEach((landmark)=>{
 
       let info = landmark.title;
@@ -53,13 +50,18 @@ initMap=()=>{
       let marker = new window.google.maps.Marker({
         position: landmark.position,
         title: landmark.title,
+        id:landmark.id,
         map: map,
         animation: window.google.maps.Animation.DROP,
         visible:true,
         active: false
       })
-      this.state.markers.push(marker)
-      
+      initMarkers.push(marker)
+      this.setState({
+        markers:initMarkers
+      })
+
+
       //open/close infoWindow on click and set on/off animation
       marker.addListener('click', function(){
         if(marker.active !== false){
@@ -80,9 +82,12 @@ initMap=()=>{
         infoWindow.close(map, marker);
         marker.setAnimation(null);
   })
-  
-  }) 
+  })
+}
 
+
+linkMarkers=()=>{
+console.log('Should open infoWindow')
 }
 
 
@@ -96,17 +101,34 @@ filterLocation =  (query)=>{
     const match = new RegExp(escapeRegExp(query), 'i');
     //console.log(query.length);
     this.setState({
-      filterLands: landmarks.filter((landmark)=>match.test(landmark.title)),
+      filterLands: landmarks.filter((landmark)=>match.test(landmark.title))
     })
     //console.log(this.state.filterLands.length, this.state.filterLands)
+
+//compare marker's id and filterLand's id
+    let {markers}=this.state;
+    let {filterLands}=this.state;
+    filterLands.forEach((filterLand)=>{
+      markers.forEach((marker)=>{
+          if(filterLand.id===marker.id){
+            
+            console.log(marker.title)
+          }
+      })
+    })
+
   }
 }
 
 
 
+
+
 componentDidMount() {
+
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
+//this way the full list of locations is desplayed by default: 
   this.setState({
     filterLands:landmarks
   })
@@ -116,7 +138,10 @@ componentDidMount() {
 
 
   render() {
-    let {query, markers, filterLands}=this.state;
+    let {query,
+        markers,
+        filterLands}=this.state;
+
 
     return (
 
@@ -133,6 +158,7 @@ componentDidMount() {
         markers={markers}
         filterLocation={this.filterLocation}
         filterLands = {filterLands}
+        linkMarkers = {this.linkMarkers}
         />
 
         <Map />
@@ -144,3 +170,11 @@ componentDidMount() {
 }
 
 export default App;
+
+//authentication errors
+/*function gm_authFailure(){
+  alert('Something went wrong :(')
+}
+window.googleError=()=>{
+    alert('Something went wrong :(')
+  }*/
