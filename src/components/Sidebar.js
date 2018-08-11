@@ -5,11 +5,12 @@ import '../App.css';
 class Sidebar extends Component{
 
 
-
-
     render(){
 
-        let {query, filterLocation, filterLands, linkMarkers} = this.props;
+        let {query,
+            filterLocation,
+            filterLands,
+            linkMarkers} = this.props;
 
         return(
             
@@ -28,8 +29,8 @@ class Sidebar extends Component{
                             <ol className='location-list'>
 
                                 {filterLands.map((filterLand)=>(
-                                    <li key={filterLand.id} className='location'>
-                                        <a href='#' className='link' onClick={linkMarkers}>{filterLand.title}</a>
+                                    <li key={filterLand.id} className='location' >
+                                        <button className='btn' onClick={linkMarkers}>{filterLand.title}</button>
                                     </li>))
                                 }
 
