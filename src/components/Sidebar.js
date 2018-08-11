@@ -9,8 +9,7 @@ class Sidebar extends Component{
 
         let {query,
             filterLocation,
-            filterLands,
-            linkMarkers} = this.props;
+            filterLands} = this.props;
 
         return(
             
@@ -30,7 +29,7 @@ class Sidebar extends Component{
 
                                 {filterLands.map((filterLand)=>(
                                     <li key={filterLand.id} className='location' >
-                                        <button className='btn' onClick={linkMarkers}>{filterLand.title}</button>
+                                        <a>{filterLand.title}</a>
                                     </li>))
                                 }
 
