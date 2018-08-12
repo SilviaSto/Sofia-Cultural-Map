@@ -43,7 +43,7 @@ initMap=()=>{
   let map = new window.google.maps.Map(document.getElementById('map'),{options});
 
   this.setState({
-    map
+    map: map
   })
 
  this.createMarkers();
@@ -77,7 +77,7 @@ createMarkers=()=>{
         this.setState({
           markers:initMarkers,
           filteredMarks: initMarkers,
-          infoWindow:infoWindow
+          //infoWindow:infoWindow
         })
         //console.log(infoWindow)
         //console.log(`filterM ${this.state.filteredMarks}`)
@@ -99,7 +99,10 @@ createMarkers=()=>{
           infoWindow.close(map, marker);
           marker.setAnimation(null);
         })
+
       })
+
+      //linkMarkers
 }
 
 
@@ -164,17 +167,17 @@ resetMarker=()=>{
   });
 }
 
-/*linkMarkers=()=>{
-let {filteredMarks}=this.state
-this.setState({
-  filteredMarks: markers
-})
 
-console.log(filteredMarks)        
-      
-
-  
-}*/
+/*--click on a location item and activate the corresponding marker--*/
+linkMarkers=(event)=>{
+  let {markers} = this.state
+  markers.forEach((marker)=>{
+    if(marker.title===event.target.innerHTML){  
+      //console.log(event.target.innerHTML)// e.target refers to the innerHTML of clicked element 
+    window.google.maps.event.trigger(marker, 'click') //https://stackoverflow.com/questions/2730929/how-to-trigger-the-onclick-event-of-a-marker-on-a-google-maps-v3/2731781#2731781
+    }
+  })
+}
 
 
 
@@ -216,6 +219,10 @@ componentDidMount() {
         <Map />
 
         </main>
+
+        <footer id='footer'tabindex='0'>
+          API which are used
+        </footer>
       </div>
     );
   }

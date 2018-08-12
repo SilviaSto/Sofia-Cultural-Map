@@ -9,7 +9,8 @@ class Sidebar extends Component{
 
         let {query,
             filterLocation,
-            filterLands} = this.props;
+            filterLands,
+            linkMarkers} = this.props;
 
         return(
             
@@ -19,7 +20,7 @@ class Sidebar extends Component{
                         <div className="input-wrapper">
                             <input
                                 type='text'
-                                placeholder = 'Filter by landmark'
+                                placeholder = 'Filter by landmark...'
                                 value = {query}
                                 onChange={(e)=>filterLocation(e.target.value)}
                                 />
@@ -29,7 +30,7 @@ class Sidebar extends Component{
 
                                 {filterLands.map((filterLand)=>(
                                     <li key={filterLand.id} className='location' >
-                                        <a>{filterLand.title}</a>
+                                        <button onClick={linkMarkers}>{filterLand.title}</button>
                                     </li>))
                                 }
 
