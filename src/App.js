@@ -56,14 +56,6 @@ createMarkers=()=>{
 
       landmarks.forEach((landmark)=>{
 
-        this.setState({
-          info: landmark.id
-        })
-
-        let infoWindow = new window.google.maps.InfoWindow({
-          content:info
-        })
-
         let marker = new window.google.maps.Marker({
           position: landmark.position,
           title: landmark.title,
@@ -79,6 +71,10 @@ createMarkers=()=>{
           filteredMarks: initMarkers,
         })
         //console.log(`filterM ${this.state.filteredMarks}`)
+
+        let infoWindow = new window.google.maps.InfoWindow({
+          content:info
+        })
 
         /*--open/close infoWindow on click and set on/off animation--*/
         marker.addListener('click', ()=>{
@@ -187,9 +183,10 @@ componentDidMount() {
 
 
 
-getInfo=()=>{
+getInfo(){
   let {landmarks}=this.state
   if(landmarks.length>0){
+    //console.log(landmarks.length)
     landmarks.forEach((landmark)=>{
       let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
       let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
@@ -197,14 +194,11 @@ getInfo=()=>{
 
         fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
           .then(response=>response.json())
-          .then(likes=> this.setState({
-            info: likes.counts
-          }),
-        console.log(this.state.info))
+          .then(data => console.log(JSON.stringify(data)))
           .catch(error =>console.log('parsing failed', error))
     })
   }
-  }
+}
 
 
   render() {
