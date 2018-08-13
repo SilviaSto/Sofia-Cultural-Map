@@ -26,7 +26,7 @@ class App extends Component {
     query:'',
     landmarks:landmarks,
     markers:[],
-    infoWindow:'',
+    info:'',
     filteredMarks:[],
     filterLands:[],
   }
@@ -49,19 +49,19 @@ initMap=()=>{
  this.createMarkers();
 }
 
-
 //--add markers with info to landmarks--//
 createMarkers=()=>{
-  let {map} = this.state;
+  let {map, info} = this.state;
   let initMarkers = [];
-  
+
       landmarks.forEach((landmark)=>{
 
-        let info = landmark.title;
+        this.setState({
+          info: landmark.id
+        })
 
         let infoWindow = new window.google.maps.InfoWindow({
-          content: info,
-          title: landmark.title
+          content:info
         })
 
         let marker = new window.google.maps.Marker({
@@ -77,9 +77,7 @@ createMarkers=()=>{
         this.setState({
           markers:initMarkers,
           filteredMarks: initMarkers,
-          //infoWindow:infoWindow
         })
-        //console.log(infoWindow)
         //console.log(`filterM ${this.state.filteredMarks}`)
 
         /*--open/close infoWindow on click and set on/off animation--*/
@@ -101,10 +99,7 @@ createMarkers=()=>{
         })
 
       })
-
-      //linkMarkers
 }
-
 
 /*--filter landmarks and markers--*/
 filterLocation =  (query)=>{
@@ -173,25 +168,43 @@ linkMarkers=(event)=>{
   let {markers} = this.state
   markers.forEach((marker)=>{
     if(marker.title===event.target.innerHTML){  
-      //console.log(event.target.innerHTML)// e.target refers to the innerHTML of clicked element 
+      //console.log(event.target.innerHTML) e.target refers to the innerHTML of clicked element 
     window.google.maps.event.trigger(marker, 'click') //https://stackoverflow.com/questions/2730929/how-to-trigger-the-onclick-event-of-a-marker-on-a-google-maps-v3/2731781#2731781
     }
   })
 }
 
 
-
 componentDidMount() {
-
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
 //this way the full list of locations is desplayed by default: 
   this.setState({
     filterLands:landmarks
   })
+  this.getInfo();
 }
 
 
+
+getInfo=()=>{
+  let {landmarks}=this.state
+  if(landmarks.length>0){
+    landmarks.forEach((landmark)=>{
+      let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
+      let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
+      let v_Id = landmark.id
+
+        fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
+          .then(response=>response.json())
+          .then(likes=> this.setState({
+            info: likes.counts
+          }),
+        console.log(this.state.info))
+          .catch(error =>console.log('parsing failed', error))
+    })
+  }
+  }
 
 
   render() {
@@ -220,7 +233,7 @@ componentDidMount() {
 
         </main>
 
-        <footer id='footer'tabindex='0'>
+        <footer id='footer'tabIndex='0'>
           API which are used
         </footer>
       </div>
