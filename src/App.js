@@ -84,6 +84,7 @@ createMarkers=()=>{
             marker.active = false
           }else{
             marker.active = true;
+
             infoWindow.open(map, marker);
             marker.setAnimation(window.google.maps.Animation.BOUNCE);
             //console.log(marker.active);
@@ -181,8 +182,6 @@ componentDidMount() {
   this.getInfo();
 }
 
-
-
 getInfo(){
   let {landmarks}=this.state
   if(landmarks.length>0){
@@ -194,11 +193,17 @@ getInfo(){
 
         fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
           .then(response=>response.json())
-          .then(data => console.log(JSON.stringify(data)))
-          .catch(error =>console.log('parsing failed', error))
+          .then(response => console.log(response))
+          //.then(response => this.setState({info: response}) )
+          .catch(error =>{
+            console.log(error);
+            alert("Oh, no! Something went wrong :(")
+          })
     })
   }
 }
+
+
 
 
   render() {
@@ -209,7 +214,6 @@ getInfo(){
     return (
 
       <div className="App">
-
         <header className="App-header">
           <h1 className="App-title">Sofia Cultural Map</h1>
         </header>
@@ -227,8 +231,11 @@ getInfo(){
 
         </main>
 
-        <footer id='footer'tabIndex='0'>
-          API which are used
+        <footer id='footer' tabIndex='0'>
+          <p id='end'>
+            Used API: <a href='https://foursquare.com/developers/apps' className='api-links'>Foursquare API</a> and <a href= 'https://cloud.google.com/maps-platform/' className='api-links'>Google Maps API</a>
+          </p>
+          
         </footer>
       </div>
     );
