@@ -19,6 +19,7 @@ function loadJS(src){
 }
 
 
+
 class App extends Component {
 
  state = {
@@ -245,9 +246,6 @@ getInfo(){
 export default App;
 
 //authentication errors
-/*function gm_authFailure(){
-  alert('Something went wrong :(')
+window.gm_authFailure=()=>{
+  alert('Something went wrong with Google Map:(')
 }
-window.googleError=()=>{
-    alert('Something went wrong :(')
-  }*/
