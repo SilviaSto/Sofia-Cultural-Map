@@ -86,6 +86,20 @@ createMarkers=()=>{
           }else{
             marker.active = true;
 
+            let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
+            let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
+            let v_Id = landmark.id
+      
+              fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
+                .then(response=>response.json())
+                .then(response => console.log(response))
+                .then(likes => this.setState({info: likes}))
+
+                .catch(error =>{
+                  console.log(error);
+                  alert("Oh, no! Something went wrong :( We can't show you info for this landmark")
+                })
+
             infoWindow.open(map, marker);
             marker.setAnimation(window.google.maps.Animation.BOUNCE);
             //console.log(marker.active);
@@ -160,7 +174,6 @@ resetMarker=()=>{
   });
 }
 
-
 /*--click on a location item and activate the corresponding marker--*/
 linkMarkers=(event)=>{
   let {markers} = this.state
@@ -172,7 +185,6 @@ linkMarkers=(event)=>{
   })
 }
 
-
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
@@ -180,31 +192,7 @@ componentDidMount() {
   this.setState({
     filterLands:landmarks
   })
-  this.getInfo();
 }
-
-getInfo(){
-  let {landmarks}=this.state
-  if(landmarks.length>0){
-    //console.log(landmarks.length)
-    landmarks.forEach((landmark)=>{
-      let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
-      let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
-      let v_Id = landmark.id
-
-        fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
-          .then(response=>response.json())
-          .then(response => console.log(response))
-          //.then(response => this.setState({info: response}) )
-          .catch(error =>{
-            console.log(error);
-            alert("Oh, no! Something went wrong :(")
-          })
-    })
-  }
-}
-
-
 
 
   render() {
@@ -233,8 +221,8 @@ getInfo(){
         </main>
 
         <footer id='footer' tabIndex='0'>
-          <p id='end'>
-            Used API: <a href='https://foursquare.com/developers/apps' className='api-links'>Foursquare API</a> and <a href= 'https://cloud.google.com/maps-platform/' className='api-links'>Google Maps API</a>
+          <p id='footer-info'>
+            Used API: <a href='https://foursquare.com/developers/apps' className='api-links'><strong>Foursquare API</strong></a> and <a href= 'https://cloud.google.com/maps-platform/' className='api-links'><strong>Google Maps API</strong></a>
           </p>
           
         </footer>
