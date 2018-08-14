@@ -29,10 +29,10 @@ class App extends Component {
     markers:[],
     info:'',
     filteredMarks:[],
-    filterLands:[],
+    filterLands:[]
   }
-
-/*--init map with markers--*/
+//ОСТАВА
+/*--init map with markers--*/ 
 initMap=()=>{
 
   let options = {
@@ -49,10 +49,10 @@ initMap=()=>{
 
  this.createMarkers();
 }
-
+//==================================================================================
 //--add markers with info to landmarks--//
 createMarkers=()=>{
-  let {map, info} = this.state;
+  let {map} = this.state;
   let initMarkers = [];
 
       landmarks.forEach((landmark)=>{
@@ -73,26 +73,24 @@ createMarkers=()=>{
         })
         //console.log(`filterM ${this.state.filteredMarks}`)
 
-        let infoWindow = new window.google.maps.InfoWindow({
-          content:info
-        })
+        let infoWindow = new window.google.maps.InfoWindow()
 
         /*--open/close infoWindow on click and set on/off animation--*/
         marker.addListener('click', ()=>{
           if(marker.active !== false){
             infoWindow.close();
             marker.setAnimation(null);
-            marker.active = false
+            marker.active = false;
           }else{
             marker.active = true;
-            let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
-            let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
-            let v_Id = landmark.id
+            let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0';
+            let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP';
+            let v_Id = landmark.id;
 
               fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
                 .then(response=>{
-                  if(response.ok){
-                    console.log(response)
+                  if(response.status===200){
+                    //console.log(response)
                     return response.json()
                   }
                 })
@@ -100,12 +98,17 @@ createMarkers=()=>{
                   this.setState({
                     info: data.response.likes.summary
                   })
-                  console.log(this.state.info)
+                  //console.log(this.state.info)
+                  infoWindow.setContent(
+                    `<div>
+                      <h3>${landmark.title}</h3>
+                        <p className='likes'>${this.state.info}</p>
+                    </div>`)
                 })
 
                 .catch(error =>{
                   console.log(error);
-                  alert("Oh, no! We are unable to show you info for this landmark at this moment")
+                  alert("We are unable to show you information for this landmark at thе moment")
                 })
 
             infoWindow.open(map, marker);
@@ -120,7 +123,9 @@ createMarkers=()=>{
 
       })
 }
+//==================================================
 
+// ОСТАВА
 /*--filter landmarks and markers--*/
 filterLocation =  (query)=>{
   this.setState({
@@ -159,6 +164,9 @@ filterLocation =  (query)=>{
 }
 
 
+
+
+//ОСТАВА
 addMarker=()=>{
   let {map, filteredMarks, markers} = this.state
 
@@ -173,7 +181,7 @@ addMarker=()=>{
     })
   })
 }
-
+//ОСТАВА
 resetMarker=()=>{
   let {markers, map} = this.state
   markers.forEach((marker)=>{
@@ -182,6 +190,8 @@ resetMarker=()=>{
   });
 }
 
+
+//ОСТАВА
 /*--click on a location item and activate the corresponding marker--*/
 linkMarkers=(event)=>{
   let {markers} = this.state
@@ -193,6 +203,7 @@ linkMarkers=(event)=>{
   })
 }
 
+//ОСТАВА
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
@@ -206,7 +217,6 @@ componentDidMount() {
   render() {
     let {query,
         filterLands}=this.state;
-
 
     return (
 
