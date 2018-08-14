@@ -31,7 +31,7 @@ class App extends Component {
     filteredMarks:[],
     filterLands:[]
   }
-//ОСТАВА
+
 /*--init map with markers--*/ 
 initMap=()=>{
 
@@ -49,7 +49,7 @@ initMap=()=>{
 
  this.createMarkers();
 }
-//==================================================================================
+
 //--add markers with info to landmarks--//
 createMarkers=()=>{
   let {map} = this.state;
@@ -101,8 +101,8 @@ createMarkers=()=>{
                   //console.log(this.state.info)
                   infoWindow.setContent(
                     `<div>
-                      <h3>${landmark.title}</h3>
-                        <p className='likes'>${this.state.info}</p>
+                      <h2>${landmark.title}</h3>
+                        <p class='likes'>${this.state.info}</p>
                     </div>`)
                 })
 
@@ -123,9 +123,8 @@ createMarkers=()=>{
 
       })
 }
-//==================================================
 
-// ОСТАВА
+
 /*--filter landmarks and markers--*/
 filterLocation =  (query)=>{
   this.setState({
@@ -164,9 +163,6 @@ filterLocation =  (query)=>{
 }
 
 
-
-
-//ОСТАВА
 addMarker=()=>{
   let {map, filteredMarks, markers} = this.state
 
@@ -181,7 +177,7 @@ addMarker=()=>{
     })
   })
 }
-//ОСТАВА
+
 resetMarker=()=>{
   let {markers, map} = this.state
   markers.forEach((marker)=>{
@@ -191,7 +187,6 @@ resetMarker=()=>{
 }
 
 
-//ОСТАВА
 /*--click on a location item and activate the corresponding marker--*/
 linkMarkers=(event)=>{
   let {markers} = this.state
@@ -203,7 +198,7 @@ linkMarkers=(event)=>{
   })
 }
 
-//ОСТАВА
+
 componentDidMount() {
   window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
@@ -240,9 +235,8 @@ componentDidMount() {
 
         <footer id='footer' tabIndex='0'>
           <p id='footer-info'>
-            Used API: <a href='https://foursquare.com/developers/apps' className='api-links'><strong>Foursquare API</strong></a> and <a href= 'https://cloud.google.com/maps-platform/' className='api-links'><strong>Google Maps API</strong></a>
+            Used API: <a href= 'https://cloud.google.com/maps-platform/' className='api-links'><strong>Google Maps API</strong></a> and <a href='https://foursquare.com/developers/apps' className='api-links'><strong>Foursquare API</strong></a>
           </p>
-          
         </footer>
       </div>
     );
