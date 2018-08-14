@@ -85,19 +85,27 @@ createMarkers=()=>{
             marker.active = false
           }else{
             marker.active = true;
-
             let cl_Id = 'GFY1ODZCOH4VCB01SYTYFSBC5MN0UZH1KGTQRC3DB0FWRMX0'
             let cl_Secret = 'HUEHLQU10QM02HORIB31E5G05CDUSAHS5USMDLFISN0KQKNP'
             let v_Id = landmark.id
-      
+
               fetch(`https://api.foursquare.com/v2/venues/${v_Id}/likes?client_id=${cl_Id}&client_secret=${cl_Secret}&v=20180806`)
-                .then(response=>response.json())
-                .then(response => console.log(response))
-                .then(likes => this.setState({info: likes}))
+                .then(response=>{
+                  if(response.ok){
+                    console.log(response)
+                    return response.json()
+                  }
+                })
+                .then(data => {
+                  this.setState({
+                    info: data.response.likes.summary
+                  })
+                  console.log(this.state.info)
+                })
 
                 .catch(error =>{
                   console.log(error);
-                  alert("Oh, no! Something went wrong :( We can't show you info for this landmark")
+                  alert("Oh, no! We are unable to show you info for this landmark at this moment")
                 })
 
             infoWindow.open(map, marker);
