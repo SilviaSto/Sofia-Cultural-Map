@@ -91,7 +91,7 @@ createMarkers=()=>{
                 .then(response=>{
                   if(response.status===200){
                     //console.log(response)
-                    return response.json()
+                    return response.json();
                   }
                 })
                 .then(data => {
@@ -103,11 +103,11 @@ createMarkers=()=>{
                     `<div>
                       <h2>${landmark.title}</h3>
                         <p class='likes'>${this.state.info}</p>
-                    </div>`)
+                    </div>`);
                 })
 
                 .catch(error =>{
-                  console.log(error);
+                  //console.log(error);
                   alert("We are unable to show you information for this landmark at thе moment")
                 })
 
@@ -158,7 +158,7 @@ filterLocation =  (query)=>{
         filterLands: landmarks,
         filteredMarks: markers,
       });
-    }, 1500)
+    }, 1500);
   }
 }
 
@@ -181,7 +181,7 @@ addMarker=()=>{
 resetMarker=()=>{
   let {markers, map} = this.state
   markers.forEach((marker)=>{
-    marker.setMap(map)
+    marker.setMap(map);
     marker.setAnimation(null);
   });
 }
@@ -189,18 +189,18 @@ resetMarker=()=>{
 
 /*--click on a location item and activate the corresponding marker--*/
 linkMarkers=(event)=>{
-  let {markers} = this.state
+  let {markers} = this.state;
   markers.forEach((marker)=>{
     if(marker.title===event.target.innerHTML){  
       //console.log(event.target.innerHTML) e.target refers to the innerHTML of clicked element 
-    window.google.maps.event.trigger(marker, 'click') //https://stackoverflow.com/questions/2730929/how-to-trigger-the-onclick-event-of-a-marker-on-a-google-maps-v3/2731781#2731781
+    window.google.maps.event.trigger(marker, 'click'); //https://stackoverflow.com/questions/2730929/how-to-trigger-the-onclick-event-of-a-marker-on-a-google-maps-v3/2731781#2731781
     }
   })
 }
 
 
 componentDidMount() {
-  window.initMap = this.initMap //connect initMap() with global window context and Google maps can invoke it
+  window.initMap = this.initMap; //connect initMap() with global window context and Google maps can invoke it
   loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCnwe4gdHSLNnqKinZo5WtMFHolUIWNjHk&language=en&callback=initMap')
 //this way the full list of locations is desplayed by default: 
   this.setState({
@@ -247,5 +247,5 @@ export default App;
 
 //authentication errors
 window.gm_authFailure=()=>{
-  alert('Something went wrong with Google Map:(')
+  alert('Something went wrong with Google Map:(');
 }
