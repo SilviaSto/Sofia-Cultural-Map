@@ -12,7 +12,7 @@ class Map extends Component{
 
         return(
             <section id="map-container">
-                <div id="map" ref='map' aria-label="Landmark location" role="application"></div>
+                <div id="map" ref='map' aria-label="Landmark locations" role="application" tabIndex="0"></div>
             </section>
         )
     }
