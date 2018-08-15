@@ -2,9 +2,11 @@ html,
 body,
 .root,
 .App {
-  height: 100%;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  overflow-x: hidden; /* Disable scrolls */
+  overflow-y: hidden;
 }
 
 body {
@@ -14,7 +16,7 @@ body {
 
 /*--map--*/
 #map{
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
 }
 
@@ -24,20 +26,16 @@ header{
   background: #621d2b;
   text-align: center;
   position: fixed;
-  z-index: 15;
+  z-index: 1;
   width: 100vw;
   height: 10vh;
 }
 
-a {
-  cursor: pointer;
-}
-
 h1 {
-  font-size: 3.2em;
+  font-size: 3.3em;
   margin: 0 120px 0 150px;
-  color: antiquewhite;
-  letter-spacing: 0.6em;
+  color:yellow;
+  letter-spacing: 0.55em;
 }
 
 /*--sidebar--*/
@@ -50,9 +48,9 @@ h1 {
   top:0;/**/
   left:0;/**/
   background: #621d2b;
-  /*transition: 0.5s;*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; 
+  padding-top: 80px; 
+   /*transition: 0.5s;*/
 }
 
 /*.sidenav .closebtn {
@@ -69,6 +67,20 @@ h1 {
   cursor:pointer;
   color: antiquewhite;
 }*/
+button {
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 0.75em;
+  padding: 8px;
+  margin-top: 20px;
+  background-color: antiquewhite;
+  width: 85%;
+  outline: none;
+}
+
+button:hover {
+  background-color: yellow;
+}
 
 .location{
   color: antiquewhite;
@@ -86,8 +98,16 @@ h1 {
 }
 
 .input-wrapper {
-  margin-top: 80px;
   text-align: center;
+}
+
+input{
+  width: 85%;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-size: 1.5em;
+  border: 2px solid #ccc;
 }
 
 /*--footer--*/
@@ -95,13 +115,19 @@ footer{
   padding: 0;
   margin: 0;
   background: #621d2b;
+  width: 100vw;
 }
 
-#end{
+#footer-info{
   text-align: center;
-  font-size: 1.5em;
-  padding: 10px 0;
+  font-size: 1.55em;
+  letter-spacing: 0.15em;
+  padding: 20px 0;
   margin: 0;
   color: antiquewhite;
+}
+
+.api-links{
+  color:yellow;
 }
 
