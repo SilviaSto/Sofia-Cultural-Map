@@ -5,6 +5,7 @@ import '../App.css';
 class Sidebar extends Component{
 
 
+
     render(){
 
         let {query,
@@ -14,27 +15,30 @@ class Sidebar extends Component{
 
         return(
             
-                <nav id='sidebar'>
+                
+                <nav id="sidebar" className="nav">
 
-                    <div className='sidebar-content'>
+                    <div className="sidebar-content">
+                        <h2 className="filter-title">Filter Results</h2>
                         <div className="input-wrapper">
                             <input
-                                type='text'
-                                placeholder = 'Filter by landmark...'
+                                role="search"
+                                type="text"
+                                placeholder = "Filter by landmark name..."
                                 value = {query}
                                 onChange={(e)=>filterLocation(e.target.value)}
                                 />
                         </div>
-                        <div id='locations'>
-                            <ol className='location-list'>
+                        <div id="locations">
+                            <ul className="location-list" tabIndex="0" aria-label="List of Landmarks">
 
                                 {filterLands.map((filterLand)=>(
-                                    <li key={filterLand.id} className='location' >
+                                    <li key={filterLand.id} className="location" >
                                         <button onClick={linkMarkers}>{filterLand.title}</button>
                                     </li>))
                                 }
 
-                            </ol>
+                            </ul>
                         </div>
                     </div>
                 </nav>

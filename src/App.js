@@ -29,7 +29,8 @@ class App extends Component {
     markers:[],
     info:'',
     filteredMarks:[],
-    filterLands:[]
+    filterLands:[],
+    menu: false
   }
 
 /*--init map with markers--*/ 
@@ -100,14 +101,14 @@ createMarkers=()=>{
                   })
                   //console.log(this.state.info)
                   infoWindow.setContent(
-                    `<div>
-                      <h2>${landmark.title}</h3>
-                        <p class='likes'>${this.state.info}</p>
+                    `<div class="info-content" tabindex="0">
+                      <h3 class="info-title">${landmark.title}</h3>
+                        <p class="info-details">${this.state.info}</p>
                     </div>`);
                 })
 
                 .catch(error =>{
-                  //console.log(error);
+                  console.log(error);
                   alert("We are unable to show you information for this landmark at thе moment")
                 })
 
@@ -194,9 +195,12 @@ linkMarkers=(event)=>{
     if(marker.title===event.target.innerHTML){  
       //console.log(event.target.innerHTML) e.target refers to the innerHTML of clicked element 
     window.google.maps.event.trigger(marker, 'click'); //https://stackoverflow.com/questions/2730929/how-to-trigger-the-onclick-event-of-a-marker-on-a-google-maps-v3/2731781#2731781
+    
     }
   })
 }
+
+
 
 
 componentDidMount() {
@@ -209,18 +213,27 @@ componentDidMount() {
 }
 
 
+toggleMenu(){
+  document.querySelector('#sidebar').classList.toggle('open')
+}
   render() {
+
+
     let {query,
         filterLands}=this.state;
 
     return (
 
       <div className="App">
+        
         <header className="App-header">
+          
+          <div className="menu-btn" tabIndex="0" role="button" onClick={this.toggleMenu}>&#9776;</div>     {/*https://www.youtube.com/watch?v=xMTs8tAapnQ*/}
+          
           <h1 className="App-title">Sofia Cultural Map</h1>
         </header>
 
-        <main id="maincontent">
+        <main id="maincontent" role="main" tabIndex="0">
 
         <Sidebar
         query={query}
@@ -233,9 +246,9 @@ componentDidMount() {
 
         </main>
 
-        <footer id='footer' tabIndex='0'>
-          <p id='footer-info'>
-            Used API: <a href= 'https://cloud.google.com/maps-platform/' className='api-links'><strong>Google Maps API</strong></a> and <a href='https://foursquare.com/developers/apps' className='api-links'><strong>Foursquare API</strong></a>
+        <footer id="footer" tabIndex="0" role="contentinfo">
+          <p id="footer-info">
+            Used API: <a href= "https://cloud.google.com/maps-platform/" className="api-links">Google Maps API</a> and <a href="https://foursquare.com/developers/apps" className="api-links">Foursquare API</a>
           </p>
         </footer>
       </div>
@@ -247,5 +260,5 @@ export default App;
 
 //authentication errors
 window.gm_authFailure=()=>{
-  alert('Something went wrong with Google Map:(');
+  alert("Something went wrong with Google Map:(");
 }
