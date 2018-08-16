@@ -30,7 +30,6 @@ class App extends Component {
     info:'',
     filteredMarks:[],
     filterLands:[],
-    menu: false
   }
 
 /*--init map with markers--*/ 
@@ -212,7 +211,7 @@ componentDidMount() {
   })
 }
 
-
+/*--open/close sidebar according to viewport--*/
 toggleMenu(){
   document.querySelector('#sidebar').classList.toggle('open')
 }
