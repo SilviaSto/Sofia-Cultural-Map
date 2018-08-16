@@ -17,21 +17,21 @@ Offline use: By a ServiceWorker => a script that your browser runs in the backgr
 
 2. You will need npm to manage dependencies.
 
-*npm install
+    * npm install
 
 3. To run the app in a development mode
 
-* npm start
+    * npm start
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-4. With  Create-react-app a Serviceworker is invoked by default. You need to run project in production build.
+4. With Create-react-app a Serviceworker is invoked by default. You need to run project in production build.
 
-    -npm run build
+    * npm run build
 
-    -npm install -g serve
+    * serve -s build
 
-    -serve -s build
+Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 ## Dependencies
 
