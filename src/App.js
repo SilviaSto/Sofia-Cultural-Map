@@ -228,12 +228,12 @@ toggleMenu(){
         
         <header className="App-header">
           
-          <div className="menu-btn" tabIndex="0" role="button" onClick={this.toggleMenu}>&#9776;</div>     {/*https://www.youtube.com/watch?v=xMTs8tAapnQ*/}
+          <div className="menu-btn" tabIndex="0" role="button" aria-label="toggle menu" onClick={this.toggleMenu}>&#9776;</div>     {/*https://www.youtube.com/watch?v=xMTs8tAapnQ*/}
           
           <h1 className="App-title">Sofia Cultural Map</h1>
         </header>
 
-        <main id="maincontent" role="main" tabIndex="0">
+        <main id="maincontent" tabIndex="0">
 
         <Sidebar
         query={query}
@@ -246,7 +246,7 @@ toggleMenu(){
 
         </main>
 
-        <footer id="footer" tabIndex="0" role="contentinfo">
+        <footer id="footer" tabIndex="0">
           <p id="footer-info">
             Used API: <a href= "https://cloud.google.com/maps-platform/" className="api-links">Google Maps API</a> and <a href="https://foursquare.com/developers/apps" className="api-links">Foursquare API</a>
           </p>

@@ -22,9 +22,10 @@ class Sidebar extends Component{
                         <h2 className="filter-title">Filter Results</h2>
                         <div className="input-wrapper">
                             <input
+                                aria-label="Filter landmark by name"
                                 role="search"
                                 type="text"
-                                placeholder = "Filter by landmark name..."
+                                placeholder = "Filter landmark by name..."
                                 value = {query}
                                 onChange={(e)=>filterLocation(e.target.value)}
                                 />
